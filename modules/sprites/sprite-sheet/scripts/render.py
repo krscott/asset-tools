@@ -169,11 +169,11 @@ for i, (_, strip) in enumerate(rows):
     for j, px in enumerate(strip):
         sheet[i * c:(i + 1) * c, j * c:(j + 1) * c] = px
 
-out_dir = os.path.dirname(os.path.abspath(args.out_png))
-os.makedirs(out_dir, exist_ok=True)
+out_png = os.path.abspath(args.out_png)  # Blender can't save to a bare relative path
+os.makedirs(os.path.dirname(out_png), exist_ok=True)
 img = bpy.data.images.new("sprite_sheet", cols * c, len(rows) * c, alpha=True)
 img.pixels.foreach_set(sheet[::-1].ravel())
-img.filepath_raw = args.out_png
+img.filepath_raw = out_png
 img.file_format = 'PNG'
 img.save()
 bpy.data.images.remove(img)
